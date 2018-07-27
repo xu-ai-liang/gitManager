@@ -1,0 +1,120 @@
+{
+  "name": "gitManager",
+  "version": "0.0.1",
+  "description": "please input description here",
+  "scripts": {
+    "precommit": "lint-staged",
+    "test": "jest",
+    "lint": "eslint .",
+    "tool:rm": "rm -rf public/build",
+    "tool:init": "npm run tool:rm",
+    "gulp:watch": "NODE_ENV=development gulp --gulpfile ./gulp/build.js watch",
+    "gulp:prod": "NODE_ENV=production gulp --gulpfile ./gulp/build.js",
+    "webpack:dll": "webpack --config ./webpack/dll.js",
+    "webpack:watch": "npm run webpack:dll; NODE_ENV=development webpack --config ./webpack/dev.js --watch",
+    "webpack:prod": "NODE_ENV=production webpack --config ./webpack/prod.js -p;",
+    "watch": "npm run tool:init; concurrently -n 'LESS,JS' \"npm run gulp:watch\" \"npm run webpack:watch\" ",
+    "watch:all": "npm run tool:init; concurrently -n 'NODE,LESS,JS' \"npm run start:dev\" \"npm run gulp:watch\" \"npm run webpack:watch\" ",
+    "start:dev": "NODE_ENV=development node bin/www.js",
+    "build": "npm run tool:rm && npm run webpack:prod && npm run gulp:prod",
+    "start": "node bin/www.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caicloud/name.git"
+  },
+  "author": "caicloud",
+  "license": "ISC",
+  "homepage": "https://github.com/caicloud/name",
+  "lint-staged": {
+    "*.{js,json,css,less}": [
+      "prettier --write",
+      "git add"
+    ],
+    "*.js": [
+      "eslint --max-warnings=0"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-1",
+      "react"
+    ],
+    "plugins": [
+      [
+        "module-resolver",
+        {
+          "root": [
+            "./public/src/js"
+          ],
+          "alias": {}
+        }
+      ]
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "es6": true,
+      "node": true,
+      "browser": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "prettier"
+    ],
+    "plugins": [
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": "error"
+    }
+  },
+  "dependencies": {
+    "ejs": "2.3.2",
+    "express": "4.12.4",
+    "helmet": "3.9.0",
+    "cookie-parser": "1.4.3",
+    "body-parser": "1.18.2",
+    "express-domain-middleware": "0.1.0",
+    "lodash": "4.17.3",
+    "moment": "2.19.3",
+    "morgan": "1.9.0"
+  },
+  "devDependencies": {
+    "babel-core": "6.7.6",
+    "babel-eslint": "8.0.3",
+    "babel-loader": "6.2.4",
+    "babel-plugin-module-resolver": "2.4.0",
+    "babel-preset-es2015": "6.6.0",
+    "babel-preset-react": "6.5.0",
+    "babel-preset-stage-1": "6.5.0",
+    "css-loader": "0.23.1",
+    "less-loader": "2.2.3",
+    "lint-staged": "6.0.0",
+    "url-loader": "0.5.7",
+    "yml-loader": "2.1.0",
+    "style-loader": "0.13.1",
+    "webpack": "2.6.1",
+    "happypack": "4.0.0",
+    "prettier": "1.9.0",
+    "husky": "0.14.3",
+    "eslint": "4.12.1",
+    "eslint-config-prettier": "2.9.0",
+    "eslint-plugin-import": "2.8.0",
+    "eslint-plugin-jsx-a11y": "5.1.1",
+    "eslint-plugin-prettier": "2.3.1",
+    "eslint-plugin-react": "7.5.1",
+    "concurrently": "3.5.0",
+    "winston": "3.0.0-rc0",
+    "gulp": "3.9.1",
+    "gulp-less": "3.3.2",
+    "gulp-minify-css": "1.2.4",
+    "gulp-plumber": "1.1.0"
+  }
+}
